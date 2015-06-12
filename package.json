@@ -20,6 +20,16 @@
         "type": "git",
         "url": "https://github.com/rongcloud/demo-web-sdk"
     },
+    "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.1",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-strip": "~0.2.1"
+    },
     "keywords": [
         "im",
         "rongcloud",
@@ -29,7 +39,7 @@
     "author": "zhangyatao",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/rongcloud/demo-web-sdk/issues"
+        "url": "https://github.com/rongcloud/rongcloud-web-im-sdk/issues"
     },
-    "homepage": "https://github.com/rongcloud/demo-web-sdk"
+    "homepage": "https://github.com/rongcloud/rongcloud-web-im-sdk"
 }
