@@ -1,5 +1,5 @@
 {
-    "name": "RongIMClient",
+    "name": "rongcloud-web-im-sdk",
     "version": "0.9.10",
     "description": "RongCloud web sdk resource code",
     "main": "RongIMClient.js",
