@@ -1,31 +1,31 @@
 web SDk
 	|---------------------------------
  	|嵌入式客服|
-	|		[Embedded.js]
+	|		[modules/Embedded.js]
 	|---------------------------------
 	|帮助模块|
-	|		[emoji-0.9.2.js]
-	|		[indexedDB.js]
-	|		[loadImage.js]
-	|		[voice-0.9.1.js]
+	|		[modules/emoji-0.9.2.js]
+	|		[modules/indexedDB.js]
+	|		[modules/loadImage.js]
+	|		[modules/voice-0.9.1.js]
 	|---------------------------------
 	|消息格式化|
-	|		[protobuf.js]
-	|		[swfobject.js]
-	|		[xhrpolling.js]
+	|		[external/protobuf.js]
+	|		[external/swfobject.js]
+	|		[external/xhrpolling.js]
 	|---------------------------------
 	|SDK 源文件|
-	|		[ RongIMClient.js]
+	|		[ bin/RongIMClient.js]
 	|---------------------------------
 	|flash 源文件|
-	|		[WebSocketMain.zip]
+	|		[external/WebSocketMain.zip]
 	|----------------------------------
 	|测试用例|
-	|		[Junit.js]
-	|		[SDk_invoker.html]
+	|		[test/Junit.js]
+	|		[test/SDk_invoker.html]
 	|----------------------------------
 	|sdk代码分块|
-	|		[SDK_reference]
+	|		[src]
 	|----------------------------------
 
 联系人：张亚涛
