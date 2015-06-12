@@ -15,7 +15,8 @@ web SDk
 	|		[external/xhrpolling.js]
 	|---------------------------------
 	|SDK 源文件|
-	|		[ bin/RongIMClient.js]
+	|		[ dist/RongIMClient.js]
+	|		[ dist/RongIMClient.min.js]
 	|---------------------------------
 	|flash 源文件|
 	|		[external/WebSocketMain.zip]
