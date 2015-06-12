@@ -29,4 +29,8 @@ web SDk
 	|----------------------------------
 
 联系人：张亚涛
+<<<<<<< HEAD
 email:xiaodezhang@foxmail.com
+=======
+email:xiaodezhang@foxmail.com
+>>>>>>> 432d3c281fc565746306337ce40ac713fb3765c8
