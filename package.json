@@ -1,0 +1,35 @@
+{
+    "name": "RongIMClient",
+    "version": "0.9.10",
+    "description": "RongCloud web sdk resource code",
+    "main": "RongIMClient.js",
+    "contributors": [{
+        "name": "yataozhang",
+        "email": "xiaodezhang@foxmail.com"
+    }],
+    "bin": {
+        "rongcloud_web_SDK": "RongIMClient.js"
+    },
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rongcloud/demo-web-sdk"
+    },
+    "keywords": [
+        "im",
+        "rongcloud",
+        "webSDK",
+        "sdk"
+    ],
+    "author": "zhangyatao",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/rongcloud/demo-web-sdk/issues"
+    },
+    "homepage": "https://github.com/rongcloud/demo-web-sdk"
+}
