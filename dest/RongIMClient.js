@@ -217,7 +217,11 @@
                 //是否为ios
                 ios: /iphone|ipad/i.test(navigator.userAgent),
                 //是否为安卓
-                android: /android/i.test(navigator.userAgent)
+                android: /android/i.test(navigator.userAgent),
+                //是否为electron
+                isElectron: function () {
+                    return !!(process && process.versions && process.versions["electron"])
+                }
             }
         }
     //feature detection 功能判断，DOM加载完成时执行此方法
@@ -254,7 +258,7 @@
             //此方法判断是否设置FORCE_LOCAL_STORAGE为true，如果是true则在localstorage中存储。否则在cookie中存储。
             io.util.cookieHelper = (function () {
                 var obj, old;
-                if (window.FORCE_LOCAL_STORAGE === true) {
+                if (window.FORCE_LOCAL_STORAGE === true || (io.util.isElectron() && window.FORCE_LOCAL_STORAGE !== false)) {
                     old = localStorage.setItem;
                     localStorage.setItem = function (x, value) {
                         if (localStorage.length == 15) {
