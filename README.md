@@ -7,12 +7,18 @@ Web (JavaScript) IM SDK of RongCloud.
 
 [使用说明请见](https://github.com/rongcloud/demo-web-sdk/blob/master/README.md " 说明文档")
 
-安装`webpack`
+#### 安装 `webpack`
+```
+$ npm install webpack -g
+```
 
-执行`webpack`
+#### 执行 `webpack`
 
-```shell
+```
 $ webpack
 ```
 
-具体配置请见`webpack.config.js`
+#### 具体配置请见 `webpack.config.js`
+
+*注意:为了更好的展现模块化,此次更新demo使用webpack来组织代码.*<br>
+*本事例进攻参考,更多请关注rongcloud-web-im-sdk v2*
