@@ -20,5 +20,7 @@ $ webpack
 
 #### 具体配置请见 `webpack.config.js`
 
+测试前请修改index.html中的token,因为token可能不可用.<br>
+<HR>
 *注意:为了更好的展现模块化,此次更新demo使用webpack来组织代码.*<br>
 *本事例进攻参考,更多请关注rongcloud-web-im-sdk v2*

@@ -33,7 +33,12 @@ RongIMClient.hasUnreadMessages = function (appkey, token, callback) {
         });
 };
 //初始化。生成一个RongIMClient单例
-RongIMClient.init = function (d) {
+RongIMClient.init = function (d, conf) {
+
+    mapping.WEB_SOCKET_FORCE_FLASH = !!conf.WEB_SOCKET_FORCE_FLASH;
+    mapping.WEB_XHR_POLLING = !!conf.WEB_XHR_POLLING;
+    mapping.FORCE_LOCAL_STORAGE = !!conf.FORCE_LOCAL_STORAGE;
+
     var instance = null;
     RongIMClient.getInstance === undefined && (RongIMClient.getInstance = function () {
         if (instance == null) {

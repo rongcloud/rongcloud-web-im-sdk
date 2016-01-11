@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="./dest/RongIMClient.js"></script>
+    <script src="./test/Junit.js"></script>
+
+    <script>
+        /**
+         * 单元测试如何使用:
+         * 1、引用Junit.JS
+         * 2、调用Junit.init方法
+         * 3、调用Junit.baseFuncTest方法
+         * 可根据控制台输出的内容检查bug
+         */
+
+        console = {};
+        window.onload = function () {
+            var log = document.getElementById("log");
+            console.log = function () {
+                var li = document.createElement("li");
+                li.innerHTML = [].join.call(arguments, "__");
+                log.appendChild(li);
+            };
+            window.onerror = function () {
+                var li = document.createElement("li");
+                li.style.color = 'red';
+                li.innerHTML = [].join.call(arguments, "------");
+                log.appendChild(li);
+            };
+            var val = location.search.slice(1);
+            var temp = val.split("=");
+            // 配置参数
+            RongIMClient.init('z3v5yqkbv8v30', {
+                WEB_SOCKET_FORCE_FLASH: null,
+                WEB_XHR_POLLING: null,
+                FORCE_LOCAL_STORAGE: null
+            });
+            //z3v5yqkbv8v30  线上appkey
+            //e0x9wycfx7flq  测试appkey
+            RongIMClient.setConnectionStatusListener({//焦点判断
+                onChanged: function (status) {
+                    switch (status) {
+                        //链接成功
+                        case RongIMClient.ConnectionStatus.CONNECTED:
+                            //do something...
+                            console.log('链接成功');
+                            break;
+                        //正在链接
+                        case RongIMClient.ConnectionStatus.CONNECTING:
+                            console.log('正在链接');
+                            break;
+                        //重新链接
+                        case RongIMClient.ConnectionStatus.RECONNECT:
+                            console.log('重新链接', status.valueOf());
+                            break;
+                        //其他设备登陆
+                        case RongIMClient.ConnectionStatus.OTHER_DEVICE_LOGIN:
+                            console.log('其他设备登陆', status.valueOf());
+                            break;
+                        //关闭
+                        case RongIMClient.ConnectionStatus.CLOSURE:
+                            console.log('关闭', status);
+                            break;
+                        //未知错误
+                        case RongIMClient.ConnectionStatus.UNKNOWN_ERROR:
+                            console.log('未知错误');
+                            break;
+                        //登出
+                        case RongIMClient.ConnectionStatus.LOGOUT:
+                            console.log('登出');
+                            break;
+                        //用户已被封禁
+                        case RongIMClient.ConnectionStatus.BLOCK:
+                            console.log('用户已被封禁');
+                            break;
+                    }
+                }
+            });
+            //release
+            var config = {
+                //线上token
+                r: {
+                    "jeams": 'bEVSfJuyK+vKcWWvsodcDs2yq+hfEluLjZ78E1qo4hGoJtlXfHETWJyjgbNQyiI7wYp5+CmaTzP+\/bv+vI++xg==', //7991
+                    "qwe": '9ACxQKwgWXawwAKvIBbWb7I6ZiT8q7s0UEaMPWY0lMxOPhe7Hp2dtgkbUxMCkoU0HAhlPdxTPg4C80jqu46\/1Q==' //9813
+                },
+                //测试token
+                d: {
+                    lipo: 'TOzO1ORZdSKfz9qnv8VAG6ZMo\/KVDHrEYcpc\/b7q1ztnoRGG0NzjemycRjB5XF3Aea2rzNZnQGzgRMdJ12F0ag==',  //2189
+                    ott: 'ZnucOgwOxCFKahyttWB37qZMo\/KVDHrEYcpc\/b7q1ztnoRGG0Nzjeg1b2fUuhRY\/r261hg2zdyI+cSWhr8lNwQ==', //2180
+                    lipo1: 'qdgJAaoVbsnYFWU06H1D96ZMo\/KVDHrEYcpc\/b7q1zu7G6k5xy+HReYDc2l38PHzSTPeB5Zk3Tvn1jU6yYkozQ==', //2315
+                }
+            };
+            RongIMClient.connect(config['d']['lipo1'], {
+                onSuccess: function (x) {
+                    console.log("connected，userid＝" + x);
+                    window.PRIVATE = RongIMClient.ConversationType.PRIVATE;
+                    window.GROUP = RongIMClient.ConversationType.GROUP;
+                    window.DISCUSSION = RongIMClient.ConversationType.DISCUSSION;
+                    window.CHATROOM = RongIMClient.ConversationType.CHATROOM;
+                    window.CUSTOMER_SERVICE = RongIMClient.ConversationType.CUSTOMER_SERVICE;
+                },
+                onError: function (c) {
+                    var info = '';
+                    switch (c) {
+                        case RongIMClient.callback.ErrorCode.TIMEOUT:
+                            info = '超时';
+                            break;
+                        case RongIMClient.callback.ErrorCode.UNKNOWN_ERROR:
+                            info = '未知错误';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.UNACCEPTABLE_PROTOCOL_VERSION:
+                            info = '不可接受的协议版本';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.IDENTIFIER_REJECTED:
+                            info = 'appkey不正确';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.SERVER_UNAVAILABLE:
+                            info = '服务器不可用';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.TOKEN_INCORRECT:
+                            info = 'token无效';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.NOT_AUTHORIZED:
+                            info = '未认证';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.REDIRECT:
+                            info = '重新获取导航';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.PACKAGE_ERROR:
+                            info = '包名错误';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.APP_BLOCK_OR_DELETE:
+                            info = '应用已被封禁或已被删除';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.BLOCK:
+                            info = '用户被封禁';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.TOKEN_EXPIRE:
+                            info = 'token已过期';
+                            break;
+                        case RongIMClient.ConnectErrorStatus.DEVICE_ERROR:
+                            info = '设备号错误';
+                            break;
+                    }
+                    console.log("失败:" + info);
+                }
+            });
+            RongIMClient.getInstance().setOnReceiveMessageListener({
+                onReceived: function (data) {
+                    console.log(data.getSenderUserId(), new Date);
+                    var div = document.createElement("div");
+                    div.innerHTML = data.getContent();
+                    received.appendChild(div);
+                }
+            });
+            window.callback = {
+                onSuccess: function (x) {
+                    console.log(1, x, arguments)
+                }, onError: function (x) {
+                    console.log(arguments.callee.caller);
+                    console.log(2, x)
+                }
+            };
+            ins = RongIMClient.getInstance();
+            var send = document.getElementById("send");
+            var id = document.getElementById("userid");
+            var con = document.getElementById("sendcontent");
+            var received = document.getElementById("receivedcontent");
+            document.getElementById("getState").onclick = function () {
+                console.log(ins.getIO().getInstance().connected)
+            };
+            document.getElementById("dis").onclick = function () {
+                ins.disconnect();
+            };
+            document.getElementById('joinChatroom').onclick = function () {
+                ins.joinChatRoom('chatroom002', 10, callback)
+            };
+            document.getElementById('re').onclick = function () {
+                ins.reconnect(callback);
+            };
+            send.onclick = function () {
+                ins.sendMessage(RongIMClient.ConversationType.setValue(document.getElementById("conver").value), id.value, RongIMClient.TextMessage.obtain(con.value), null, {
+                    onSuccess: function () {
+                        console.log("send success：" + parseInt(con.value), new Date);
+                        con.value = parseInt(con.value) + 1;
+                    },
+                    onError: function (x) {
+                        var info = '';
+                        switch (x) {
+                            case RongIMClient.callback.ErrorCode.TIMEOUT:
+                                info = '超时';
+                                break;
+                            case RongIMClient.callback.ErrorCode.UNKNOWN_ERROR:
+                                info = '未知错误';
+                                break;
+                            case RongIMClient.SendErrorStatus.REJECTED_BY_BLACKLIST:
+                                info = '在黑名单中，无法向对方发送消息';
+                                break;
+                            case RongIMClient.SendErrorStatus.NOT_IN_DISCUSSION:
+                                info = '不在讨论组中';
+                                break;
+                            case RongIMClient.SendErrorStatus.NOT_IN_GROUP:
+                                info = '不在群组中';
+                                break;
+                            case RongIMClient.SendErrorStatus.NOT_IN_CHATROOM:
+                                info = '不在聊天室中';
+                                break;
+                            default :
+                                info = x;
+                                break;
+                        }
+                        console.log('发送失败:' + info);
+                    }
+                });
+            };
+        }
+    </script>
+</head>
+
+<body>
+<input type="text" id="userid" value="kefu1427083338236"><strong>用户id</strong>
+<select id="conver" style="margin-left: 30px">
+    <option value="0">聊天室</option>
+    <option value="3">群组</option>
+    <option value="4">私聊</option>
+    <option value="2">讨论组</option>
+    <option selected value="1">客服</option>
+    <option value="5">系统</option>
+</select><label>会话类型</label>
+<textarea id="sendcontent" style="width: 100%;height: 50px;margin-top: 10px">1
+</textarea><strong>接受的内容：</strong>
+<button id="send">send</button>
+<button id="joinChatroom">加入聊天室</button>
+<input type="button" value="获取通道类型" onclick="javascript:console.log(ins.getIO()._TransportType)">
+<input id="getState" type="button" value="获取连接状态">
+<input id="dis" type="button" value="断开连接">
+<input id="re" type="button" value="重新连接">
+
+<div id="receivedcontent" style="width: 100%;height: 400px;margin-top: 10px;overflow-y: auto;background-color: #ccc">
+</div>
+
+<ul id="log">
+
+</ul>
+</body>
+
+</html>
