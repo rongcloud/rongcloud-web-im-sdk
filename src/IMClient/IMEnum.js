@@ -1,3 +1,11 @@
+/**
+ * Created by zhangyatao on 16/1/11.
+ */
+var RongIMClient = require('./RongIMClient');
+var tool = require('../tool');
+var msgEnum = require('../message/msgEnum');
+var en = require('../enum');
+var ConnectionState = msgEnum.ConnectionState;
 //create enum object 枚举对象，详情可参考API文档
 var _enum = {
     'MessageTag': {
@@ -23,16 +31,16 @@ var _enum = {
     'ConnectionStatus': ['CONNECTED', 'CONNECTING', 'RECONNECT', 'OTHER_DEVICE_LOGIN', 'CLOSURE', 'UNKNOWN_ERROR', 'LOGOUT', 'BLOCK']
 };
 //生产枚举对象
-io.util.each(_enum, function (_name, option) {
+tool.each(_enum, function (_name, option) {
     var val = {};
-    if (io.util.isArray(option)) {
-        io.util.forEach(option, function (x, i) {
+    if (tool.isArray(option)) {
+        tool.forEach(option, function (x, i) {
             val[x] = i;
         })
     } else {
         val = option;
     }
-    RongIMClient[_name] = RongIMEnum(val);
+    RongIMClient[_name] = en(val);
 });
 RongIMClient.ConnectErrorStatus = ConnectionState;
 //回调基类
@@ -41,7 +49,7 @@ RongIMClient.callback = function (d, a) {
     this.onSuccess = d
 };
 //回调错误枚举值
-RongIMClient.callback.ErrorCode = RongIMEnum({
+RongIMClient.callback.ErrorCode = en({
     TIMEOUT: -1,
     UNKNOWN_ERROR: -2
 });

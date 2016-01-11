@@ -1,83 +1,32 @@
-//版本号
-RongIMClient.version = "0.9.10";
-// RongIMClient.connect静态方法，执行连接操作
-RongIMClient.connect = function (d, a) {
-    if (!RongIMClient.getInstance) {
-        throw new Error("please init")
+var RongIMClient=require('./RongIMClient');
+var tool=require('../tool');
+//把具体的消息类型转化为protobuf格式的类
+RongIMClient.MessageContent = function (f) {
+    if (!(f instanceof RongIMClient.RongIMMessage)) {
+        throw new Error("wrong parameter")
     }
-    //判断protobuf文件加载是否完成
-    if (global.Modules) {
-        //完成执行connect方法
-        RongIMClient.getInstance().connect(d, a);
+};
+RongIMClient.MessageContent.prototype.getMessage = function () {
+    return f
+};
+RongIMClient.MessageContent.prototype.encode = function () {
+    var c = new Modules.UpStreamMessage();
+    c.setSessionId(0);
+    c.setClassname(f.getObjectName());
+    c.setContent(tool.JSON.stringify(f.getDetail()));
+    var val = c.toArrayBuffer();
+    if (Object.prototype.toString.call(val) == "[object ArrayBuffer]") {
+        return [].slice.call(new Int8Array(val))
+    }
+    return val
+};
+//发送中处理消息的类，sendMessage方法的第三个参数就是这个对象
+RongIMClient.MessageHandler = function (a) {
+    if (typeof a == "function") {
+        this.process = a;
     } else {
-        //把token、回调函数赋值给RongIMClient.connect，让protobuf文件自己来触发连接操作
-        RongIMClient.connect.token = d;
-        RongIMClient.connect.callback = a
+        throw new Error("MessageHandler:arguments type is error")
     }
-
-};
-//是否有未接收的消息，jsonp方法
-RongIMClient.hasUnreadMessages = function (appkey, token, callback) {
-    var xss = document.createElement("script");
-    xss.src = "http://api.cn.rong.io/message/exist.js?appKey=" + encodeURIComponent(appkey) + "&token=" + encodeURIComponent(token) + "&callBack=RongIMClient.hasUnreadMessages.RCcallback&_=" + Date.now();
-    document.body.appendChild(xss);
-    xss.onerror = function () {
-        callback.onError(RongIMClient.callback.ErrorCode.UNKNOWN_ERROR);
-        xss.parentNode.removeChild(xss);
-    };
-    RongIMClient.hasUnreadMessages.RCcallback = function (x) {
-        callback.onSuccess(!!+x.status);
-        xss.parentNode.removeChild(xss);
-    };
-};
-//初始化。生成一个RongIMClient单例
-RongIMClient.init = function (d) {
-    var instance = null;
-    RongIMClient.getInstance === undefined && (RongIMClient.getInstance = function () {
-        if (instance == null) {
-            instance = new RongIMClient(d);
-        }
-        return instance;
-    });
-};
-//自定义消息类型映射对象
-var registerMessageTypeMapping = {};
-//注册自定义消息
-RongIMClient.registerMessageType = function (regMsg) {
-    if (!RongIMClient.getInstance) {
-        throw new Error("unInitException")
-    }
-    if ("messageType" in regMsg && "objectName" in regMsg && "fieldName" in regMsg) {
-        registerMessageTypeMapping[regMsg.objectName] = regMsg.messageType;
-        var temp = RongIMClient[regMsg.messageType] = function (c) {
-            RongIMClient.RongIMMessage.call(this, c);
-            RongIMClient.MessageType[regMsg.messageType] = regMsg.messageType;
-            this.setMessageType(regMsg.messageType);
-            this.setObjectName(regMsg.objectName);
-            for (var i = 0; i < regMsg.fieldName.length; i++) {
-                var item = regMsg.fieldName[i];
-                this["set" + item] = (function (na) {
-                    return function (a) {
-                        this.setContent(a, na);
-                    }
-                })(item);
-                this["get" + item] = (function (na) {
-                    return function () {
-                        return this.getDetail()[na];
-                    }
-                })(item);
-            }
-        };
-        io.util._extends(temp, RongIMClient.RongIMMessage)
-    } else
-        throw new Error("registerMessageType:arguments type is error");
-};
-//设置连接状态监听器
-RongIMClient.setConnectionStatusListener = function (a) {
-    if (!RongIMClient.getInstance) {
-        throw new Error("unInitException")
-    }
-    RongIMClient.getInstance().setConnectionStatusListener(a)
 };
 //接收状态
 RongIMClient.ReceivedStatus = function (d) {
@@ -137,7 +86,7 @@ RongIMClient.Conversation = function () {
     this.getConversationTitle = function () {
         return G
     };
-    this.toJSONString = function () {
+    this.toJSON = function () {
         var c = {
             "senderUserName": E,
             lastTime: a,
@@ -151,7 +100,7 @@ RongIMClient.Conversation = function () {
             "targetId": x,
             "notificationStatus": z
         };
-        return JSON.stringify(c)
+        return tool.JSON.stringify(c)
     };
     this.setReceivedStatus = function (c) {
         w = c

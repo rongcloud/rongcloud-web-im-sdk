@@ -1,3 +1,5 @@
+var RongIMClient=require('./RongIMClient');
+var tool=require('../tool');
 //消息基类，此类是对安卓消息基类的重新实现
 RongIMClient.RongIMMessage = function (content) {
     var x = "unknown",
@@ -70,7 +72,7 @@ RongIMClient.RongIMMessage = function (content) {
         return !!(s = c)
     };
     this.setSentTime = function (c) {
-        v = io.util.int64ToTimestamp(c);
+        v = tool.int64ToTimestamp(c);
     };
     this.getSentTime = function () {
         return v;
@@ -81,7 +83,7 @@ RongIMClient.RongIMMessage = function (content) {
     this.setReceivedTime = function (c) {
         u = c
     };
-    this.toJSONString = function () {
+    this.toJSON = function () {
         var c = {
             "receivedTime": u,
             "messageType": x,
@@ -94,7 +96,7 @@ RongIMClient.RongIMMessage = function (content) {
             "sendTime": v,
             "targetId": r
         };
-        return JSON.stringify(c)
+        return tool.JSON.stringify(c)
     };
     this.getMessageType = function () {
         return x
@@ -110,7 +112,7 @@ RongIMClient.NotificationMessage = function (c) {
         return [RongIMClient.MessageTag.ISPERSISTED, RongIMClient.MessageTag.ISDISPLAYED];
     };
 };
-io.util._extends(RongIMClient.NotificationMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.NotificationMessage, RongIMClient.RongIMMessage, true);
 //状态类型消息基类，继承自RongIMMessage
 RongIMClient.StatusMessage = function (c) {
     RongIMClient.RongIMMessage.call(this, c);
@@ -118,7 +120,7 @@ RongIMClient.StatusMessage = function (c) {
         return ['NONE'];
     };
 };
-io.util._extends(RongIMClient.StatusMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.StatusMessage, RongIMClient.RongIMMessage, true);
 //文本消息
 RongIMClient.TextMessage = function (c) {
     RongIMClient.RongIMMessage.call(this, c);
@@ -131,7 +133,7 @@ RongIMClient.TextMessage.obtain = function (text) {
         extra: ""
     })
 };
-io.util._extends(RongIMClient.TextMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.TextMessage, RongIMClient.RongIMMessage, true);
 //图片消息
 RongIMClient.ImageMessage = function (c) {
     RongIMClient.RongIMMessage.call(this, c);
@@ -151,7 +153,7 @@ RongIMClient.ImageMessage.obtain = function (content, imageUri) {
         extra: ""
     });
 };
-io.util._extends(RongIMClient.ImageMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.ImageMessage, RongIMClient.RongIMMessage, true);
 //图文消息
 RongIMClient.RichContentMessage = function (c) {
     RongIMClient.RongIMMessage.call(this, c);
@@ -178,7 +180,7 @@ RongIMClient.RichContentMessage.obtain = function (title, content, imageUri) {
         extra: ""
     })
 };
-io.util._extends(RongIMClient.RichContentMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.RichContentMessage, RongIMClient.RongIMMessage, true);
 //音频消息
 RongIMClient.VoiceMessage = function (c) {
     RongIMClient.RongIMMessage.call(this, c);
@@ -198,28 +200,28 @@ RongIMClient.VoiceMessage.obtain = function (content, duration) {
         extra: ""
     })
 };
-io.util._extends(RongIMClient.VoiceMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.VoiceMessage, RongIMClient.RongIMMessage, true);
 //客服握手消息
 RongIMClient.HandshakeMessage = function () {
     RongIMClient.RongIMMessage.call(this);
     this.setMessageType(RongIMClient.MessageType.HandshakeMessage);
     this.setObjectName("RC:HsMsg");
 };
-io.util._extends(RongIMClient.HandshakeMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.HandshakeMessage, RongIMClient.RongIMMessage, true);
 //中断客服消息
 RongIMClient.SuspendMessage = function () {
     RongIMClient.RongIMMessage.call(this);
     this.setMessageType(RongIMClient.MessageType.SuspendMessage);
     this.setObjectName("RC:SpMsg");
 };
-io.util._extends(RongIMClient.SuspendMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.SuspendMessage, RongIMClient.RongIMMessage, true);
 //未知消息
 RongIMClient.UnknownMessage = function (c, o) {
     RongIMClient.RongIMMessage.call(this, c);
     this.setMessageType(RongIMClient.MessageType.UnknownMessage);
     this.setObjectName(o);
 };
-io.util._extends(RongIMClient.UnknownMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.UnknownMessage, RongIMClient.RongIMMessage, true);
 //地理位置消息
 RongIMClient.LocationMessage = function (c) {
     RongIMClient.RongIMMessage.call(this, c);
@@ -253,7 +255,7 @@ RongIMClient.LocationMessage.obtain = function (content, latitude, longitude, po
         extra: ""
     })
 };
-io.util._extends(RongIMClient.LocationMessage, RongIMClient.RongIMMessage);
+tool.inherit(RongIMClient.LocationMessage, RongIMClient.RongIMMessage, true);
 //讨论组通知消息
 RongIMClient.DiscussionNotificationMessage = function (c) {
     RongIMClient.NotificationMessage.call(this, c);
@@ -286,7 +288,7 @@ RongIMClient.DiscussionNotificationMessage = function (c) {
         //1:加入讨论组 2：退出讨论组 3:讨论组改名 4：讨论组群主T人
     };
 };
-io.util._extends(RongIMClient.DiscussionNotificationMessage, RongIMClient.NotificationMessage);
+tool.inherit(RongIMClient.DiscussionNotificationMessage, RongIMClient.NotificationMessage, true);
 //信息通知消息，继承自NotificationMessage
 RongIMClient.InformationNotificationMessage = function (c) {
     RongIMClient.NotificationMessage.call(this, c);
@@ -299,7 +301,7 @@ RongIMClient.InformationNotificationMessage.obtain = function (content) {
         extra: ""
     })
 };
-io.util._extends(RongIMClient.InformationNotificationMessage, RongIMClient.NotificationMessage);
+tool.inherit(RongIMClient.InformationNotificationMessage, RongIMClient.NotificationMessage, true);
 //加删好友消息
 RongIMClient.ContactNotificationMessage = function (c) {
     RongIMClient.NotificationMessage.call(this, c);
@@ -345,7 +347,7 @@ RongIMClient.ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE = 'Con
 RongIMClient.ContactNotificationMessage.CONTACT_OPERATION_REJECT_RESPONSE = 'ContactOperationRejectResponse';
 //发起加好友请求
 RongIMClient.ContactNotificationMessage.CONTACT_OPERATION_REQUEST = 'ContactOperationRequest';
-io.util._extends(RongIMClient.ContactNotificationMessage, RongIMClient.NotificationMessage);
+tool.inherit(RongIMClient.ContactNotificationMessage, RongIMClient.NotificationMessage, true);
 //个人信息通知消息
 RongIMClient.ProfileNotificationMessage = function (c) {
     RongIMClient.NotificationMessage.call(this, c);
@@ -371,7 +373,7 @@ RongIMClient.ProfileNotificationMessage.obtain = function (operation, data) {
         extra: ""
     });
 };
-io.util._extends(RongIMClient.ProfileNotificationMessage, RongIMClient.NotificationMessage);
+tool.inherit(RongIMClient.ProfileNotificationMessage, RongIMClient.NotificationMessage, true);
 //命令通知消息
 RongIMClient.CommandNotificationMessage = function (c) {
     RongIMClient.NotificationMessage.call(this, c);
@@ -397,32 +399,4 @@ RongIMClient.CommandNotificationMessage.obtain = function (x, data) {
         extra: ""
     });
 };
-io.util._extends(RongIMClient.CommandNotificationMessage, RongIMClient.NotificationMessage);
-//把具体的消息类型转化为protobuf格式的类
-RongIMClient.MessageContent = function (f) {
-    if (!(f instanceof RongIMClient.RongIMMessage)) {
-        throw new Error("wrong parameter")
-    }
-    this.getMessage = function () {
-        return f
-    };
-    this.encode = function () {
-        var c = new Modules.UpStreamMessage();
-        c.setSessionId(0);
-        c.setClassname(f.getObjectName());
-        c.setContent(JSON.stringify(f.getDetail()));
-        var val = c.toArrayBuffer();
-        if (Object.prototype.toString.call(val) == "[object ArrayBuffer]") {
-            return [].slice.call(new Int8Array(val))
-        }
-        return val
-    }
-};
-//发送中处理消息的类，sendMessage方法的第三个参数就是这个对象
-RongIMClient.MessageHandler = function (a) {
-    if (typeof a == "function") {
-        this.process = a;
-    } else {
-        throw new Error("MessageHandler:arguments type is error")
-    }
-};
+tool.inherit(RongIMClient.CommandNotificationMessage, RongIMClient.NotificationMessage, true);

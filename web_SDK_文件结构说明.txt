@@ -16,7 +16,6 @@ web SDk
 	|---------------------------------
 	|SDK 源文件|
 	|		[ dist/RongIMClient.js]
-	|		[ dist/RongIMClient.min.js]
 	|---------------------------------
 	|flash 源文件|
 	|		[external/WebSocketMain.zip]

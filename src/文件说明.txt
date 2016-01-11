@@ -1,6 +1,0 @@
-inner文件夹
-	内部逻辑
-outer文件夹
-	外部逻辑
-sdk_reference.html
-	单个文件引用顺序
