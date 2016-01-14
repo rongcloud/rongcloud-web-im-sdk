@@ -1,56 +1,69 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["RongIMClient"] = factory();
+	else
+		root["RongIMClient"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/*!*******************************!*\
+  !*** ./src/IMClient/entry.js ***!
+  \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var RongIMClient = __webpack_require__(1);
-	var tool = __webpack_require__(2);
-	var mapping = __webpack_require__(3);
-	__webpack_require__(26);
-	__webpack_require__(27);
-	__webpack_require__(28);
-	__webpack_require__(29);
+	/* WEBPACK VAR INJECTION */(function(global) {var RongIMClient = __webpack_require__(/*! ./RongIMClient */ 1);
+	var tool = __webpack_require__(/*! ../tool */ 2);
+	var mapping = __webpack_require__(/*! ../mapping */ 3);
+	__webpack_require__(/*! ../ready */ 26);
+	__webpack_require__(/*! ./affiliatedMessage */ 27);
+	__webpack_require__(/*! ./coustomMessage */ 28);
+	__webpack_require__(/*! ./IMEnum */ 29);
 	//版本号
 	RongIMClient.version = "0.9.10";
 	// RongIMClient.connect静态方法，执行连接操作
@@ -79,7 +92,12 @@
 	        });
 	};
 	//初始化。生成一个RongIMClient单例
-	RongIMClient.init = function (d) {
+	RongIMClient.init = function (d, conf) {
+	
+	    mapping.WEB_SOCKET_FORCE_FLASH = !!conf.WEB_SOCKET_FORCE_FLASH;
+	    mapping.WEB_XHR_POLLING = !!conf.WEB_XHR_POLLING;
+	    mapping.FORCE_LOCAL_STORAGE = !!conf.FORCE_LOCAL_STORAGE;
+	
 	    var instance = null;
 	    RongIMClient.getInstance === undefined && (RongIMClient.getInstance = function () {
 	        if (instance == null) {
@@ -130,13 +148,16 @@
 
 /***/ },
 /* 1 */
+/*!**************************************!*\
+  !*** ./src/IMClient/RongIMClient.js ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var tool = __webpack_require__(2);
-	var shim = __webpack_require__(4);
-	var bridge = __webpack_require__(5);
-	var mapping = __webpack_require__(3);
-	var messageParser = __webpack_require__(13);
+	var tool = __webpack_require__(/*! ../tool */ 2);
+	var shim = __webpack_require__(/*! ./shim */ 4);
+	var bridge = __webpack_require__(/*! ../core/bridge */ 5);
+	var mapping = __webpack_require__(/*! ../mapping */ 3);
+	var messageParser = __webpack_require__(/*! ../core/messageParser */ 13);
 	var listenerList = [];
 	var conversationList = new shim.list();
 	var sessionStore = shim.sessionStore;
@@ -673,9 +694,12 @@
 
 /***/ },
 /* 2 */
+/*!*********************!*\
+  !*** ./src/tool.js ***!
+  \*********************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapping = __webpack_require__(3);
+	var mapping = __webpack_require__(/*! ./mapping */ 3);
 	var doc = document;
 	var global = window;
 	var transportType = '';
@@ -989,6 +1013,9 @@
 
 /***/ },
 /* 3 */
+/*!************************!*\
+  !*** ./src/mapping.js ***!
+  \************************/
 /***/ function(module, exports) {
 
 	/**
@@ -1034,13 +1061,16 @@
 	    Endpoint:{},
 	    userId:'',
 	    reconnectSet:{
-
+	
 	    },
 	    chatroomId:''
 	};
 
 /***/ },
 /* 4 */
+/*!******************************!*\
+  !*** ./src/IMClient/shim.js ***!
+  \******************************/
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -1130,13 +1160,16 @@
 
 /***/ },
 /* 5 */
+/*!****************************!*\
+  !*** ./src/core/bridge.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapping = __webpack_require__(3);
-	var client = __webpack_require__(6);
-	var e = __webpack_require__(9);
+	var mapping = __webpack_require__(/*! ../mapping */ 3);
+	var client = __webpack_require__(/*! ./client */ 6);
+	var e = __webpack_require__(/*! ../message/msgEnum */ 9);
 	var Qos = e.Qos;
-
+	
 	var Bridge = function (_appkey, _token, _callback) {
 	    this.context = client.connect(_appkey, _token, _callback);
 	    Bridge.getInstance = function () {
@@ -1177,16 +1210,19 @@
 
 /***/ },
 /* 6 */
+/*!****************************!*\
+  !*** ./src/core/client.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var entity = __webpack_require__(7);
-	var handler = __webpack_require__(12);
-	var channel = __webpack_require__(24);
-	var ack = __webpack_require__(14);
-	var mapping = __webpack_require__(3);
-	var md5 = __webpack_require__(25);
-	var tool = __webpack_require__(2);
-	var en = __webpack_require__(9);
+	var entity = __webpack_require__(/*! ../message/MessageEntity */ 7);
+	var handler = __webpack_require__(/*! ./messageHandler */ 12);
+	var channel = __webpack_require__(/*! ./channel */ 24);
+	var ack = __webpack_require__(/*! ./messageCallback */ 14);
+	var mapping = __webpack_require__(/*! ../mapping */ 3);
+	var md5 = __webpack_require__(/*! ../md5 */ 25);
+	var tool = __webpack_require__(/*! ../tool */ 2);
+	var en = __webpack_require__(/*! ../message/msgEnum */ 9);
 	var Qos = en.Qos;
 	var global = window;
 	//初始化通道对象
@@ -1447,12 +1483,15 @@
 
 /***/ },
 /* 7 */
+/*!**************************************!*\
+  !*** ./src/message/MessageEntity.js ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var msg = __webpack_require__(8);
-	var TinyStream = __webpack_require__(11);
-	var e = __webpack_require__(9);
-	var util = __webpack_require__(2);
+	var msg = __webpack_require__(/*! ./Message */ 8);
+	var TinyStream = __webpack_require__(/*! ../binary */ 11);
+	var e = __webpack_require__(/*! ./msgEnum */ 9);
+	var util = __webpack_require__(/*! ../tool */ 2);
 	var Message = msg.Message;
 	var Header = msg.Header;
 	var Type = e.Type;
@@ -1930,18 +1969,21 @@
 	    QueryConMessage: QueryConMessage,
 	    QueryAckMessage: QueryAckMessage
 	};
-
+	
 
 
 /***/ },
 /* 8 */
+/*!********************************!*\
+  !*** ./src/message/Message.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 消息类，对java逻辑的重新实现
 	 * */
-	var e = __webpack_require__(9);
-	var TinyStream = __webpack_require__(11);
+	var e = __webpack_require__(/*! ./msgEnum */ 9);
+	var TinyStream = __webpack_require__(/*! ../binary */ 11);
 	var Qos = e.Qos;
 	var Type = e.Type;
 	function Message(argu) {
@@ -2049,9 +2091,12 @@
 
 /***/ },
 /* 9 */
+/*!********************************!*\
+  !*** ./src/message/msgEnum.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var myEnum = __webpack_require__(10);
+	var myEnum = __webpack_require__(/*! ../enum */ 10);
 	var Qos = myEnum({AT_MOST_ONCE: 0, AT_LEAST_ONCE: 1, EXACTLY_ONCE: 2, DEFAULT: 3}),
 	    Type = myEnum({
 	        CONNECT: 1,
@@ -2101,6 +2146,9 @@
 
 /***/ },
 /* 10 */
+/*!*********************!*\
+  !*** ./src/enum.js ***!
+  \*********************/
 /***/ function(module, exports) {
 
 	function inherit(superCtor) {
@@ -2122,8 +2170,8 @@
 	        }, null);
 	        return val;
 	    };
-
-
+	
+	
 	    var proto = enumeration.prototype = {
 	        constructor: enumeration,
 	        toString: function () {
@@ -2155,6 +2203,9 @@
 
 /***/ },
 /* 11 */
+/*!***********************!*\
+  !*** ./src/binary.js ***!
+  \***********************/
 /***/ function(module, exports) {
 
 	var global = window;
@@ -2469,13 +2520,16 @@
 
 /***/ },
 /* 12 */
+/*!************************************!*\
+  !*** ./src/core/messageHandler.js ***!
+  \************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var parser = __webpack_require__(13);
-	var mapping = __webpack_require__(3);
-	var ack = __webpack_require__(14);
-	var tool = __webpack_require__(2);
-	var entity=__webpack_require__(7);
+	var parser = __webpack_require__(/*! ./messageParser */ 13);
+	var mapping = __webpack_require__(/*! ../mapping */ 3);
+	var ack = __webpack_require__(/*! ./messageCallback */ 14);
+	var tool = __webpack_require__(/*! ../tool */ 2);
+	var entity=__webpack_require__(/*! ../message/MessageEntity */ 7);
 	var self = null;
 	function MessageHandler(client) {
 	    if (!mapping._ReceiveMessageListener) {
@@ -2596,32 +2650,35 @@
 
 /***/ },
 /* 13 */
+/*!***********************************!*\
+  !*** ./src/core/messageParser.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by zhangyatao on 16/1/7.
 	 */
-
-	var com = __webpack_require__(3);
-	var tool=__webpack_require__(2);
+	
+	var com = __webpack_require__(/*! ../mapping */ 3);
+	var tool=__webpack_require__(/*! ../tool */ 2);
 	//消息转换方法
 	function messageParser(entity) {
 	    var message, content = entity.content;
 	    var result, objectName = entity.classname;
-
+	
 	    try {
 	        result = JSON.parse(RongBinaryHelper.readUTF(content.offset ? tool.arrayFrom(content.buffer).slice(content.offset, content.limit) : content))
 	    } catch (ex) {
 	        return null;
 	    }
-
+	
 	    //处理表情
 	    if ("Expression" in RongIMClient && "RC:TxtMsg" == objectName && result.content) {
 	        result.content = result.content.replace(/[\uf000-\uf700]/g, function (x) {
 	            return RongIMClient.Expression.calcUTF(x) || x;
 	        })
 	    }
-
+	
 	    //映射为具体消息对象
 	    if (objectName in com.typeMapping) {
 	        message = new RongIMClient[com.typeMapping[objectName]](result);
@@ -2634,7 +2691,7 @@
 	        //未知消息
 	        message = new RongIMClient.UnknownMessage(result, objectName);
 	    }
-
+	
 	    //根据实体对象设置message对象
 	    message.setSentTime(tool.int64ToTimestamp(entity.dataTime));
 	    message.setSenderUserId(entity.fromUserId);
@@ -2654,11 +2711,14 @@
 
 /***/ },
 /* 14 */
+/*!*************************************!*\
+  !*** ./src/core/messageCallback.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var tool = __webpack_require__(2);
-	var mapping = __webpack_require__(3);
-	var factory = __webpack_require__(15);
+	var tool = __webpack_require__(/*! ../tool */ 2);
+	var mapping = __webpack_require__(/*! ../mapping */ 3);
+	var factory = __webpack_require__(/*! ../io/factory */ 15);
 	//protobuf映射
 	function callbackMapping(entity, tag) {
 	    switch (tag) {
@@ -2751,7 +2811,7 @@
 	PublishCallback.prototype.readTimeOut = function (x) {
 	    PublishCallback.super_.prototype.readTimeOut.call(this, x)
 	};
-
+	
 	//发送QueryMessage消息回调类
 	function QueryCallback(cb, _timeout) {
 	    MessageCallback.call(this, _timeout);
@@ -2782,7 +2842,7 @@
 	QueryCallback.prototype.readTimeOut = function (x) {
 	    QueryCallback.super_.prototype.readTimeOut.call(this, x)
 	};
-
+	
 	//连接回调类
 	function ConnectAck(cb, _timeout, context) {
 	    MessageCallback.call(this, _timeout);
@@ -2834,7 +2894,7 @@
 	};
 	ConnectAck.redirect = function () {
 	};
-
+	
 	module.exports = {
 	    MessageCallback: MessageCallback,
 	    PublishCallback: PublishCallback,
@@ -2844,12 +2904,15 @@
 
 /***/ },
 /* 15 */
+/*!***************************!*\
+  !*** ./src/io/factory.js ***!
+  \***************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	//var io = require('./base');
-	var util = __webpack_require__(2);
-	var WS = __webpack_require__(16);
-	var XHR = __webpack_require__(23);
+	var util = __webpack_require__(/*! ../tool */ 2);
+	var WS = __webpack_require__(/*! ./websocket */ 16);
+	var XHR = __webpack_require__(/*! ./polling */ 23);
 	var _Transport = {
 	    'websocket': WS,
 	    'xhr-polling': XHR
@@ -2982,7 +3045,7 @@
 	    }
 	    return this
 	};
-
+	
 	var connect = function (token, args) {
 	    var instance = new Socket();
 	    connect.getInstance = function () {
@@ -2991,18 +3054,21 @@
 	    instance.connect(token, args);
 	    return instance;
 	};
-
+	
 	module.exports = connect;
 
 /***/ },
 /* 16 */
+/*!*****************************!*\
+  !*** ./src/io/websocket.js ***!
+  \*****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var Transport = __webpack_require__(17);
-	var util = __webpack_require__(2);
-	var tinyStream = __webpack_require__(11);
-	var IOStream = __webpack_require__(22);
-	var mapping = __webpack_require__(3);
+	/* WEBPACK VAR INJECTION */(function(global) {var Transport = __webpack_require__(/*! ./base */ 17);
+	var util = __webpack_require__(/*! ../tool */ 2);
+	var tinyStream = __webpack_require__(/*! ../binary */ 11);
+	var IOStream = __webpack_require__(/*! ../message/throttleStream */ 22);
+	var mapping = __webpack_require__(/*! ../mapping */ 3);
 	var WS = Transport.websocket = function () {
 	    Transport.apply(this, arguments)
 	};
@@ -3076,14 +3142,17 @@
 
 /***/ },
 /* 17 */
+/*!************************!*\
+  !*** ./src/io/base.js ***!
+  \************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var util = __webpack_require__(2);
-	var IOstream = __webpack_require__(18);
-	var mapping=__webpack_require__(3);
+	var util = __webpack_require__(/*! ../tool */ 2);
+	var IOstream = __webpack_require__(/*! ../Message/throttleStream */ 18);
+	var mapping=__webpack_require__(/*! ../mapping */ 3);
 	var global = window;
 	//获取消息id标识符对象，如果是comet消息通道就将messageid放入本地存储(localstorage或cookie)中。其他消息通道则放入内存中。
-
+	
 	var Transport = function (base, options) {
 	    this.base = base;
 	    this.options = {
@@ -3154,17 +3223,20 @@
 	Transport.prototype._baseConnect = function () {
 	    this.base.connect(null, null);
 	};
-
+	
 	module.exports = Transport;
 
 /***/ },
 /* 18 */
+/*!***************************************!*\
+  !*** ./src/Message/throttleStream.js ***!
+  \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var TinyStream = __webpack_require__(11);
-	var Message = __webpack_require__(19);
-	var eneity = __webpack_require__(21);
-
+	var TinyStream = __webpack_require__(/*! ../binary */ 11);
+	var Message = __webpack_require__(/*! ./Message */ 19);
+	var eneity = __webpack_require__(/*! ./MessageEntity */ 21);
+	
 	function output(_out) {
 	    var out = TinyStream.parse(_out);
 	    this.writeMessage = function (msg) {
@@ -3237,13 +3309,16 @@
 
 /***/ },
 /* 19 */
+/*!********************************!*\
+  !*** ./src/Message/Message.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * 消息类，对java逻辑的重新实现
 	 * */
-	var e = __webpack_require__(20);
-	var TinyStream = __webpack_require__(11);
+	var e = __webpack_require__(/*! ./msgEnum */ 20);
+	var TinyStream = __webpack_require__(/*! ../binary */ 11);
 	var Qos = e.Qos;
 	var Type = e.Type;
 	function Message(argu) {
@@ -3351,9 +3426,12 @@
 
 /***/ },
 /* 20 */
+/*!********************************!*\
+  !*** ./src/Message/msgEnum.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var myEnum = __webpack_require__(10);
+	var myEnum = __webpack_require__(/*! ../enum */ 10);
 	var Qos = myEnum({AT_MOST_ONCE: 0, AT_LEAST_ONCE: 1, EXACTLY_ONCE: 2, DEFAULT: 3}),
 	    Type = myEnum({
 	        CONNECT: 1,
@@ -3403,12 +3481,15 @@
 
 /***/ },
 /* 21 */
+/*!**************************************!*\
+  !*** ./src/Message/MessageEntity.js ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var msg = __webpack_require__(19);
-	var TinyStream = __webpack_require__(11);
-	var e = __webpack_require__(20);
-	var util = __webpack_require__(2);
+	var msg = __webpack_require__(/*! ./Message */ 19);
+	var TinyStream = __webpack_require__(/*! ../binary */ 11);
+	var e = __webpack_require__(/*! ./msgEnum */ 20);
+	var util = __webpack_require__(/*! ../tool */ 2);
 	var Message = msg.Message;
 	var Header = msg.Header;
 	var Type = e.Type;
@@ -3886,17 +3967,20 @@
 	    QueryConMessage: QueryConMessage,
 	    QueryAckMessage: QueryAckMessage
 	};
-
+	
 
 
 /***/ },
 /* 22 */
+/*!***************************************!*\
+  !*** ./src/message/throttleStream.js ***!
+  \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var TinyStream = __webpack_require__(11);
-	var Message = __webpack_require__(8);
-	var eneity = __webpack_require__(7);
-
+	var TinyStream = __webpack_require__(/*! ../binary */ 11);
+	var Message = __webpack_require__(/*! ./Message */ 8);
+	var eneity = __webpack_require__(/*! ./MessageEntity */ 7);
+	
 	function output(_out) {
 	    var out = TinyStream.parse(_out);
 	    this.writeMessage = function (msg) {
@@ -3969,11 +4053,14 @@
 
 /***/ },
 /* 23 */
+/*!***************************!*\
+  !*** ./src/io/polling.js ***!
+  \***************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Transport = __webpack_require__(17);
-	var util = __webpack_require__(2);
-	var mapping=__webpack_require__(3);
+	var Transport = __webpack_require__(/*! ./base */ 17);
+	var util = __webpack_require__(/*! ../tool */ 2);
+	var mapping=__webpack_require__(/*! ../mapping */ 3);
 	var global = window;
 	var empty = new Function;
 	//利用withCredentials判断是否支持跨域操作
@@ -4169,12 +4256,15 @@
 
 /***/ },
 /* 24 */
+/*!*****************************!*\
+  !*** ./src/core/channel.js ***!
+  \*****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapping = __webpack_require__(3);
-	var msgEnum = __webpack_require__(9);
-	var factory = __webpack_require__(15);
-	var tool = __webpack_require__(2);
+	var mapping = __webpack_require__(/*! ../mapping */ 3);
+	var msgEnum = __webpack_require__(/*! ../message/msgEnum */ 9);
+	var factory = __webpack_require__(/*! ../io/factory */ 15);
+	var tool = __webpack_require__(/*! ../tool */ 2);
 	function Channel(address, cb, self) {
 	    //连接服务器
 	    this.context = self;
@@ -4241,6 +4331,9 @@
 
 /***/ },
 /* 25 */
+/*!********************!*\
+  !*** ./src/md5.js ***!
+  \********************/
 /***/ function(module, exports) {
 
 	var MD5 = function (e) {
@@ -4248,29 +4341,29 @@
 	        for (var a = 0, b = ""; 3 >= a; a++)b += "0123456789abcdef".charAt(d >> 8 * a + 4 & 15) + "0123456789abcdef".charAt(d >> 8 * a & 15);
 	        return b
 	    }
-
+	
 	    function m(a, b) {
 	        var d = (a & 65535) + (b & 65535);
 	        return (a >> 16) + (b >> 16) + (d >> 16) << 16 | d & 65535
 	    }
-
+	
 	    function h(a, b, d, c, e, f) {
 	        a = m(m(b, a), m(c, f));
 	        return m(a << e | a >>> 32 - e, d)
 	    }
-
+	
 	    function g(a, b, d, c, e, f, g) {
 	        return h(b & d | ~b & c, a, b, e, f, g)
 	    }
-
+	
 	    function k(a, b, d, c, e, f, g) {
 	        return h(b & c | d & ~c, a, b, e, f, g)
 	    }
-
+	
 	    function l(a, b, d, c, e, f, g) {
 	        return h(d ^ (b | ~c), a, b, e, f, g)
 	    }
-
+	
 	    e = function (a) {
 	        for (var b =
 	            (a.length + 8 >> 6) + 1, d = Array(16 * b), c = 0; c < 16 * b; c++)d[c] = 0;
@@ -4291,11 +4384,14 @@
 
 /***/ },
 /* 26 */
+/*!**********************!*\
+  !*** ./src/ready.js ***!
+  \**********************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var global = window;
-	var tool = __webpack_require__(2);
-	var mappding = __webpack_require__(3);
+	var tool = __webpack_require__(/*! ./tool */ 2);
+	var mappding = __webpack_require__(/*! ./mapping */ 3);
 	var config = {
 	    canFlashWidget: (function () {
 	        if ('navigator' in global && 'plugins' in navigator && navigator.plugins['Shockwave Flash']) {
@@ -4340,10 +4436,13 @@
 
 /***/ },
 /* 27 */
+/*!*******************************************!*\
+  !*** ./src/IMClient/affiliatedMessage.js ***!
+  \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var RongIMClient=__webpack_require__(1);
-	var tool=__webpack_require__(2);
+	var RongIMClient=__webpack_require__(/*! ./RongIMClient */ 1);
+	var tool=__webpack_require__(/*! ../tool */ 2);
 	//把具体的消息类型转化为protobuf格式的类
 	RongIMClient.MessageContent = function (f) {
 	    if (!(f instanceof RongIMClient.RongIMMessage)) {
@@ -4616,10 +4715,13 @@
 
 /***/ },
 /* 28 */
+/*!****************************************!*\
+  !*** ./src/IMClient/coustomMessage.js ***!
+  \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var RongIMClient=__webpack_require__(1);
-	var tool=__webpack_require__(2);
+	var RongIMClient=__webpack_require__(/*! ./RongIMClient */ 1);
+	var tool=__webpack_require__(/*! ../tool */ 2);
 	//消息基类，此类是对安卓消息基类的重新实现
 	RongIMClient.RongIMMessage = function (content) {
 	    var x = "unknown",
@@ -5023,15 +5125,18 @@
 
 /***/ },
 /* 29 */
+/*!********************************!*\
+  !*** ./src/IMClient/IMEnum.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by zhangyatao on 16/1/11.
 	 */
-	var RongIMClient = __webpack_require__(1);
-	var tool = __webpack_require__(2);
-	var msgEnum = __webpack_require__(9);
-	var en = __webpack_require__(10);
+	var RongIMClient = __webpack_require__(/*! ./RongIMClient */ 1);
+	var tool = __webpack_require__(/*! ../tool */ 2);
+	var msgEnum = __webpack_require__(/*! ../message/msgEnum */ 9);
+	var en = __webpack_require__(/*! ../enum */ 10);
 	var ConnectionState = msgEnum.ConnectionState;
 	//create enum object 枚举对象，详情可参考API文档
 	var _enum = {
@@ -5082,4 +5187,7 @@
 	});
 
 /***/ }
-/******/ ]);
+/******/ ])
+});
+;
+//# sourceMappingURL=RongIMClient.js.map
