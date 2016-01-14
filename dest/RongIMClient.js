@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-/******/
+
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-/******/
+
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-/******/
+
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-/******/
+
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/
+
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
-/******/
+
+
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-/******/
+
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-/******/
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-/******/
+
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -93,11 +93,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	//初始化。生成一个RongIMClient单例
 	RongIMClient.init = function (d, conf) {
-	
+
 	    mapping.WEB_SOCKET_FORCE_FLASH = !!conf.WEB_SOCKET_FORCE_FLASH;
 	    mapping.WEB_XHR_POLLING = !!conf.WEB_XHR_POLLING;
 	    mapping.FORCE_LOCAL_STORAGE = !!conf.FORCE_LOCAL_STORAGE;
-	
+
 	    var instance = null;
 	    RongIMClient.getInstance === undefined && (RongIMClient.getInstance = function () {
 	        if (instance == null) {
@@ -1061,7 +1061,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Endpoint:{},
 	    userId:'',
 	    reconnectSet:{
-	
+
 	    },
 	    chatroomId:''
 	};
@@ -1169,7 +1169,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var client = __webpack_require__(/*! ./client */ 6);
 	var e = __webpack_require__(/*! ../message/msgEnum */ 9);
 	var Qos = e.Qos;
-	
+
 	var Bridge = function (_appkey, _token, _callback) {
 	    this.context = client.connect(_appkey, _token, _callback);
 	    Bridge.getInstance = function () {
@@ -1969,7 +1969,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    QueryConMessage: QueryConMessage,
 	    QueryAckMessage: QueryAckMessage
 	};
-	
+
 
 
 /***/ },
@@ -2170,8 +2170,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, null);
 	        return val;
 	    };
-	
-	
+
+
 	    var proto = enumeration.prototype = {
 	        constructor: enumeration,
 	        toString: function () {
@@ -2658,27 +2658,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Created by zhangyatao on 16/1/7.
 	 */
-	
+
 	var com = __webpack_require__(/*! ../mapping */ 3);
 	var tool=__webpack_require__(/*! ../tool */ 2);
 	//消息转换方法
 	function messageParser(entity) {
 	    var message, content = entity.content;
 	    var result, objectName = entity.classname;
-	
+
 	    try {
 	        result = JSON.parse(RongBinaryHelper.readUTF(content.offset ? tool.arrayFrom(content.buffer).slice(content.offset, content.limit) : content))
 	    } catch (ex) {
 	        return null;
 	    }
-	
+
 	    //处理表情
 	    if ("Expression" in RongIMClient && "RC:TxtMsg" == objectName && result.content) {
 	        result.content = result.content.replace(/[\uf000-\uf700]/g, function (x) {
 	            return RongIMClient.Expression.calcUTF(x) || x;
 	        })
 	    }
-	
+
 	    //映射为具体消息对象
 	    if (objectName in com.typeMapping) {
 	        message = new RongIMClient[com.typeMapping[objectName]](result);
@@ -2691,7 +2691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        //未知消息
 	        message = new RongIMClient.UnknownMessage(result, objectName);
 	    }
-	
+
 	    //根据实体对象设置message对象
 	    message.setSentTime(tool.int64ToTimestamp(entity.dataTime));
 	    message.setSenderUserId(entity.fromUserId);
@@ -2811,7 +2811,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	PublishCallback.prototype.readTimeOut = function (x) {
 	    PublishCallback.super_.prototype.readTimeOut.call(this, x)
 	};
-	
+
 	//发送QueryMessage消息回调类
 	function QueryCallback(cb, _timeout) {
 	    MessageCallback.call(this, _timeout);
@@ -2842,7 +2842,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	QueryCallback.prototype.readTimeOut = function (x) {
 	    QueryCallback.super_.prototype.readTimeOut.call(this, x)
 	};
-	
+
 	//连接回调类
 	function ConnectAck(cb, _timeout, context) {
 	    MessageCallback.call(this, _timeout);
@@ -2894,7 +2894,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	ConnectAck.redirect = function () {
 	};
-	
+
 	module.exports = {
 	    MessageCallback: MessageCallback,
 	    PublishCallback: PublishCallback,
@@ -3045,7 +3045,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return this
 	};
-	
+
 	var connect = function (token, args) {
 	    var instance = new Socket();
 	    connect.getInstance = function () {
@@ -3054,7 +3054,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    instance.connect(token, args);
 	    return instance;
 	};
-	
+
 	module.exports = connect;
 
 /***/ },
@@ -3152,7 +3152,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var mapping=__webpack_require__(/*! ../mapping */ 3);
 	var global = window;
 	//获取消息id标识符对象，如果是comet消息通道就将messageid放入本地存储(localstorage或cookie)中。其他消息通道则放入内存中。
-	
+
 	var Transport = function (base, options) {
 	    this.base = base;
 	    this.options = {
@@ -3223,7 +3223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Transport.prototype._baseConnect = function () {
 	    this.base.connect(null, null);
 	};
-	
+
 	module.exports = Transport;
 
 /***/ },
@@ -3236,7 +3236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var TinyStream = __webpack_require__(/*! ../binary */ 11);
 	var Message = __webpack_require__(/*! ./Message */ 19);
 	var eneity = __webpack_require__(/*! ./MessageEntity */ 21);
-	
+
 	function output(_out) {
 	    var out = TinyStream.parse(_out);
 	    this.writeMessage = function (msg) {
@@ -3967,7 +3967,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    QueryConMessage: QueryConMessage,
 	    QueryAckMessage: QueryAckMessage
 	};
-	
+
 
 
 /***/ },
@@ -3980,7 +3980,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var TinyStream = __webpack_require__(/*! ../binary */ 11);
 	var Message = __webpack_require__(/*! ./Message */ 8);
 	var eneity = __webpack_require__(/*! ./MessageEntity */ 7);
-	
+
 	function output(_out) {
 	    var out = TinyStream.parse(_out);
 	    this.writeMessage = function (msg) {
@@ -4341,29 +4341,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var a = 0, b = ""; 3 >= a; a++)b += "0123456789abcdef".charAt(d >> 8 * a + 4 & 15) + "0123456789abcdef".charAt(d >> 8 * a & 15);
 	        return b
 	    }
-	
+
 	    function m(a, b) {
 	        var d = (a & 65535) + (b & 65535);
 	        return (a >> 16) + (b >> 16) + (d >> 16) << 16 | d & 65535
 	    }
-	
+
 	    function h(a, b, d, c, e, f) {
 	        a = m(m(b, a), m(c, f));
 	        return m(a << e | a >>> 32 - e, d)
 	    }
-	
+
 	    function g(a, b, d, c, e, f, g) {
 	        return h(b & d | ~b & c, a, b, e, f, g)
 	    }
-	
+
 	    function k(a, b, d, c, e, f, g) {
 	        return h(b & c | d & ~c, a, b, e, f, g)
 	    }
-	
+
 	    function l(a, b, d, c, e, f, g) {
 	        return h(d ^ (b | ~c), a, b, e, f, g)
 	    }
-	
+
 	    e = function (a) {
 	        for (var b =
 	            (a.length + 8 >> 6) + 1, d = Array(16 * b), c = 0; c < 16 * b; c++)d[c] = 0;

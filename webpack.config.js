@@ -1,6 +1,6 @@
 var path = require('path');
 module.exports = {
-    devtool: '#source-map',
+    devtool: '#cheap-source-map',
     entry: "./src/IMClient/entry.js",
     output: {
         path: path.join(__dirname, '/dest'),
