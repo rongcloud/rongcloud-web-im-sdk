@@ -1,5 +1,11 @@
-# rongcloud-web-im-sdk v1
-Web (JavaScript) IM SDK of RongCloud. 
+# rongcloud-web-im-sdk v1 [已废弃]
+
+请移步 Web IM SDK 2.0 [https://github.com/rongcloud/rongcloud-web-im-sdk-v2](https://github.com/rongcloud/rongcloud-web-im-sdk-v2)
+
+官方不再对 v1 版本提供技术支持。
+
+
+-----------------------------------------------------------
 
 ## 融云 Web SDK 0.9.x 版本 Demo 如何使用
 
