@@ -1,3 +1,8 @@
+> [!WARNING]
+> ⚠️ **暂停维护说明**
+>
+> 该工程已不再维护。
+
 # rongcloud-web-im-sdk v1 [已废弃]
 
 请移步 Web IM SDK 2.0 [https://github.com/rongcloud/rongcloud-web-im-sdk-v2](https://github.com/rongcloud/rongcloud-web-im-sdk-v2)
